@@ -9,11 +9,108 @@
 <body>
     
     <h1>Documentation page</h1>
-    <ul>
-        <li>Get a list of all movies: /movies</li>
-        <li>Get a movie by title: /movies/title:title</li>
-        <li>Get a list of movies by a certain director: /movies/director/:director</li>
-        <li>Get movies by genre: /movies/genre/:genre</li>
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Request</th>
+                <th>URL</th>
+                <th>Parameter</th>
+                <th>HTTP Method</th>
+            </tr>
+        </thead>
+        <tbody style="text-align:left;">
+            <tr>
+                <td>Returns list of all movies to the user</td>
+                <td>/movies</td>
+                <td>None</td>
+                <td>GET</td>
+            </tr>
+
+            <tr>
+                <td>Returns data about a single movie, by title</td>
+                <td>/movies/title/:title</td>
+                <td>:title</td>
+                <td>GET</td>
+            </tr>
+
+            <tr>
+                <td>Returns data about a movie by a specific director</td>
+                <td>/movies/director/:director</td>
+                <td>:director</td>
+                <td>GET</td>
+            </tr>
+
+            <tr>
+                <td>Returns a list of movies under a specific genre</td>
+                <td>/movies/genre/:genre</td>
+                <td>:genre</td>
+                <td>GET</td>
+            </tr>
+
+            <tr>
+                <td>Addes a movie to our list of movies</td>
+                <td>/movies</td>
+                <td>None</td>
+                <td>POST</td>
+            </tr>
+
+            <tr>
+                <td>Deletes movie by title</td>
+                <td>/movies/:title</td>
+                <td>:title</td>
+                <td>DELETE</td>
+            </tr>
+
+            <tr>
+                <td>Gets data from all users</td>
+                <td>/users</td>
+                <td>None</td>
+                <td>GET</td>
+            </tr>
+
+            <tr>
+                <td>Gets users information by ID</td>
+                <td>/users/id/:id</td>
+                <td>:id</td>
+                <td>GET</td>
+            </tr>
+
+            <tr>
+                <td>Adds a newUser to our list of users</td>
+                <td>/users/newUser</td>
+                <td>None</td>
+                <td>POST</td>
+            </tr>
+
+            <tr>
+                <td>Updates user by user id</td>
+                <td>/users/update/:id</td>
+                <td>:id</td>
+                <td>PUT</td>
+            </tr>
+
+            <tr>
+                <td>Adds movie to users favorites by user ID</td>
+                <td>/users/update/:id/:title</td>
+                <td>:id, :title</td>
+                <td>POST</td>
+            </tr>
+
+            <tr>
+                <td>Deletes movie from users favorites by user id and movie title</td>
+                <td>/users/update/:id/:title</td>
+                <td>:id, :title</td>
+                <td>DELETE</td>
+            </tr>
+
+            <tr>
+                <td>Deletes user by name</td>
+                <td>/users/deleteUser/:name</td>
+                <td>:name</td>
+                <td>DELETE</td>
+            </tr>
+        </tbody>
+    </table>
+
 </body>
 </html>

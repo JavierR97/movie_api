@@ -16,6 +16,8 @@
                 <th>URL</th>
                 <th>Parameter</th>
                 <th>HTTP Method</th>
+                <th>Response</th>
+                <th>Parameter Details</th>
             </tr>
         </thead>
         <tbody style="text-align:left;">
@@ -24,6 +26,15 @@
                 <td>/movies</td>
                 <td>None</td>
                 <td>GET</td>
+                <td>Returns JSON array of all movies</td>
+                <td>  
+                    {
+                        "imgUrl": "",
+                        "title": "", 
+                        "genre": "",
+                        "director": ""
+                    }
+                    </td>
             </tr>
 
             <tr>
@@ -31,6 +42,15 @@
                 <td>/movies/title/:title</td>
                 <td>:title</td>
                 <td>GET</td>
+                <td>Returns selected movie as a JSON array</td>
+                <td>
+                    {
+                        "imgUrl": "",
+                        "title": "", 
+                        "genre": "",
+                        "director": ""
+                    }                    
+                </td>
             </tr>
 
             <tr>
@@ -38,6 +58,15 @@
                 <td>/movies/director/:director</td>
                 <td>:director</td>
                 <td>GET</td>
+                <td>Returns a JSON array of all movies made by a particular director</td>
+                <td>
+                    {
+                        "imgUrl": "",
+                        "title": "", 
+                        "genre": "",
+                        "director": ""
+                    }                                     
+                </td>
             </tr>
 
             <tr>
@@ -45,13 +74,32 @@
                 <td>/movies/genre/:genre</td>
                 <td>:genre</td>
                 <td>GET</td>
+                <td>Returns a JSON array of all movies under a specific genre</td>
+                <td>
+                    {
+                        "imgUrl": "",
+                        "title": "", 
+                        "genre": "",
+                        "director": ""
+                    }                    
+                </td>
             </tr>
 
             <tr>
-                <td>Addes a movie to our list of movies</td>
+                <td>Adds a movie to our list of movies</td>
                 <td>/movies</td>
                 <td>None</td>
                 <td>POST</td>
+                <td>Creates a new movie to add to our JSON array</td>
+                <td>
+                    Structured like this: <br>
+                    {
+                        "imgUrl": "",
+                        "title": "", 
+                        "genre": "",
+                        "director": ""
+                    } 
+                </td>
             </tr>
 
             <tr>
@@ -59,6 +107,11 @@
                 <td>/movies/:title</td>
                 <td>:title</td>
                 <td>DELETE</td>
+                <td>Removes a movie from our JSON array by title</td>
+                <td>
+                    ex. <br>
+                    http://localhost:8080/movies/IT(2017)                
+                </td>
             </tr>
 
             <tr>
@@ -66,6 +119,14 @@
                 <td>/users</td>
                 <td>None</td>
                 <td>GET</td>
+                <td>Returns a JSON array of all users</td>
+                <td>
+                    {
+                        "id": "",
+                        "name": "",
+                        "favoriteMovies": []
+                    }
+                </td>
             </tr>
 
             <tr>
@@ -73,6 +134,14 @@
                 <td>/users/id/:id</td>
                 <td>:id</td>
                 <td>GET</td>
+                <td>Returns array of a user by ID</td>
+                <td>
+                    {
+                        "id": "",
+                        "name": "",
+                        "favoriteMovies": []
+                    }
+                </td>
             </tr>
 
             <tr>
@@ -80,6 +149,13 @@
                 <td>/users/newUser</td>
                 <td>None</td>
                 <td>POST</td>
+                <td>Adds new user to users JSON array</td>
+                <td>
+                    {
+                        "name": "",
+                        "favoriteMovies": []
+                    }
+                </td>
             </tr>
 
             <tr>
@@ -87,6 +163,13 @@
                 <td>/users/update/:id</td>
                 <td>:id</td>
                 <td>PUT</td>
+                <td>Updates user name in our JSON by id </td>
+                <td>
+                    /users/update/1 : <br>
+                    {
+                        "name": ""
+                    }
+                </td>
             </tr>
 
             <tr>
@@ -94,13 +177,17 @@
                 <td>/users/update/:id/:title</td>
                 <td>:id, :title</td>
                 <td>POST</td>
+                <td>Adds movie to a specific users FavoriteMovies array</td>
+                <td>/users/update/1/Get%20Out</td>
             </tr>
 
             <tr>
                 <td>Deletes movie from users favorites by user id and movie title</td>
-                <td>/users/update/:id/:title</td>
+                <td>/users/delete/:id/:title</td>
                 <td>:id, :title</td>
                 <td>DELETE</td>
+                <td>Deletes movie from a specific users favorite movies array</td>
+                <td>/users/update/1/Get%20Out</td>
             </tr>
 
             <tr>
@@ -108,6 +195,8 @@
                 <td>/users/deleteUser/:name</td>
                 <td>:name</td>
                 <td>DELETE</td>
+                <td>Deletes user from our array of users by name</td>
+                <td>/users/deleteUser/john</td>
             </tr>
         </tbody>
     </table>

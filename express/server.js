@@ -116,7 +116,7 @@ app.post('/users/newUser', (req, res) => {
     }
 });
 
-// update user by id
+// update user name by id
 app.put('/users/update/:id', (req, res) => {
   const id = req.params.id;
   const updatedUser = req.body;
@@ -140,14 +140,14 @@ app.post('/users/update/:id/:title', (req, res) => {
 
   if (user) {
     user.favoriteMovies.push(title)
-    res.status(200).send(title + 'has been added to ' + id + "'s array");
+    res.status(200).send(title + ' has been added to ' + id + "'s array");
   } else {
     res.status(400).send("no such user");
   }
 });
 
 // delete movie from users favorites by user id
-app.delete('/users/update/:id/:title', (req, res) => {
+app.delete('/users/delete/:id/:title', (req, res) => {
   const id = req.params.id;
   const title = req.params.title;
 

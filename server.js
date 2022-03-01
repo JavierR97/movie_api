@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express'),
   bodyParser = require('body-parser'),
   morgan = require('morgan');
@@ -102,14 +103,14 @@ var users = [
 
 // get all users 
 app.get('/users', (req, res) => {
-  Users.find()
-  .then(function (users) {
-      res.status(201).json(users);
-  })
-  .catch(function (err) {
-      console.log.error(err);
-      res.status(500).send('Error ' + err);
-  })
+    Users.find()
+    .then((users) => {
+        res.status(201).json(users);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+    })
 });
 
 // get user by id 
@@ -203,6 +204,9 @@ app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', {root: __dirname});
 });
 
+
+/* movies CRUD operations start */
+
 // gets all movies
 app.get('/movies', (req, res) => {
     Movies.find()
@@ -229,47 +233,91 @@ app.get('/movies/title/:title', (req, res) => {
 
 // gets movies by director
 app.get('/movies/director/:director', (req, res) => {
-  res.json(movies.find((movie) =>
-    { return movie.director === req.params.director }));
+    Movies.findOne({ Director: req.params.Director })
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+    })
 });
 
 // gets movies by genre 
 app.get('/movies/genre/:genre', (req, res) => {
-  res.json(movies.filter((movie) =>
-    { 
-      return movie.genre === req.params.genre;
-    }));
+    Movies.findOne({ Genre: req.params.Genre })
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+    })
 });
 
 // Adds data for a new movie to our list.
 app.post('/movies', (req, res) => {
-  let newMovie = req.body;
-
-  if (!newMovie.title) {
-    const message = 'Missing title in request body';
-    res.status(400).send(message);
-  } else {
-    movies.push(newMovie);
-    res.status(201).send(newMovie);
-  }
+    Movies.findOne ({ Title: req.body.Title})
+    .then((movie) => {
+        if (movie) {
+            return res.status(400).send( req.body.Title + 'already exists');
+        } else {
+            Movies
+                .create ({
+                    "Title" : req.body.Title,
+                    "Description" : req.body.Description,
+                    "Genre" : {
+                            "Name" : req.body.Genre.Name,
+                            "Description" : req.body.Genre.Description,
+                    },
+                    "Director" : {
+                            "Name" : req.body.Director.Name,
+                            "Bio" : req.body.Director.Bio,
+                            "Birth" : req.body.Director.Birth,
+                            "Death" : req.body.Director.Death,
+                    },
+                    "ImagePath" : req.body.ImagePath,
+                    "Featured" : bool,
+                })
+                .then ((movie) => { res.status(201).json(movie) })
+                .catch((error) => {
+                    console.error(error);
+                    res.status(500).send('Error ' + error);
+                })
+        }
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error ' + error);
+    });
 });
 
 // delete movie by title
 app.delete('/movies/:title', (req, res) => {
-  let movie = movies.find((movie) => { return movie.title === req.params.title });
-
-  if (movie) {
-    movies = movies.filter((obj) => { return obj.title !== req.params.title });
-    res.status(201).send('movie ' + req.params.title + ' was deleted.');
-  }
+    Movies.findOneAndRemove({ Title: req.params.Title })
+      .then((movie) => {
+          if(!movie) {
+              res.status(400).send(req.params.Title + ' was not found');
+          } else {
+              res.status(200).send(req.params.Title + "was deleted")
+          }
+      })
+      .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error' + err);
+      });
 });
-
+/* movies CRUD operations end */
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Sorry, something broke');
+    console.error(err.stack);
+    res.status(500).send('Sorry, something broke');
 });
 
 app.listen(8080, () => {
-  console.log('Your app is listening on port 8080');
+    console.log('Your app is listening on port 8080');
 });
+
+
+
+

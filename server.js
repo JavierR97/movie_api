@@ -102,7 +102,14 @@ var users = [
 
 // get all users 
 app.get('/users', (req, res) => {
-  res.json(users);
+  Users.find()
+  .then(function (users) {
+      res.status(201).json(users);
+  })
+  .catch(function (err) {
+      console.log.error(err);
+      res.status(500).send('Error ' + err);
+  })
 });
 
 // get user by id 

@@ -198,9 +198,9 @@ app.get('/documentation', (req, res) => {
 
 // gets all movies
 app.get('/movies', (req, res) => {
-    Users.find()
-    .then((users) => {
-        res.status(201).json(users);
+    Movies.find()
+    .then((movies) => {
+        res.status(201).json(movies);
     })
     .catch((err) => {
         console.error(err);
@@ -210,8 +210,14 @@ app.get('/movies', (req, res) => {
 
 // Gets the data about a single movie, by title
 app.get('/movies/title/:title', (req, res) => {
-  res.json(movies.find((movie) =>
-    { return movie.title === req.params.title }));
+    Movies.findOne({ Title: req.params.Title })
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+    })
 });
 
 // gets movies by director

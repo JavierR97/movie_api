@@ -4,6 +4,14 @@ const express = require('express'),
   uuid = require('uuid')
 
 const app = express();
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.json());
 app.use(morgan('common'));
@@ -190,7 +198,14 @@ app.get('/documentation', (req, res) => {
 
 // gets all movies
 app.get('/movies', (req, res) => {
-  res.json(movies);
+    Users.find()
+    .then((users) => {
+        res.status(201).json(users);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    })
 });
 
 // Gets the data about a single movie, by title

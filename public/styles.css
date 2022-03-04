@@ -1,0 +1,9 @@
+table {
+    margin:auto;
+    padding-top: 20px;
+}
+
+td {
+    width: 18%;
+    padding: 1.5rem; 
+}

@@ -6,7 +6,6 @@ const express = require('express'),
 const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -14,6 +13,7 @@ const Users = Models.User;
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common'));
 
 let movies = [
@@ -24,16 +24,26 @@ let movies = [
       director: 'Michael Chaves'
     },
     {
-      imgUrl: 'https://tinyurl.com/2p959ukk',
-      title:'Get Out',
-      genre:'horror',
-      director: 'Jordan Peele'
-    },
-    {
       imgUrl:'https://tinyurl.com/yj2s6d57',
       title:'The Babadook',
       genre:'horror',
       director: 'Jennifer Kent'
+    },
+    {
+        Title: 'Get Out',
+        Description: '',
+        Genre: {
+            Name: 'Horror',
+            Description:'"Horror is a genre of literature, film, and television that is meant to scare, startle, shock, and even repulse audiences.'
+        },
+        Director: {
+            Name: 'Jordan Peele',
+            Bio: '',
+            Birth: '',
+            Death: ''
+        },
+        ImagePath: 'https://tinyurl.com/yj2s6d57',
+        Featured: false,     
     },
     {
       imgUrl:'https://tinyurl.com/8hanet65',
@@ -114,7 +124,7 @@ app.get('/users', (req, res) => {
 
 // get user by id 
 app.get('/users/id/:id', (req, res) => {
-    Users.findOne({ ObjectId: req.params.ObjectId })
+    Users.findOne({ _id: req.params.id })
     .then((user) => {
         res.json(user);
     })
@@ -151,9 +161,9 @@ app.post('/users/newUser', (req, res) => {
     });
 });
 
-// update user name by id
-app.put('/users/update/:id', (req, res) => {
-    Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+// update user name by username
+app.put('/users/:username', (req, res) => {
+    Users.findOneAndUpdate({ Username: req.params.username}, { $set:
         {
             Username: req.body.Username,
             Password: req.body.Password,
@@ -172,9 +182,9 @@ app.put('/users/update/:id', (req, res) => {
     });
 });
 
-// add movie to users favorites by user username
-app.post('/users/update/:id/:title', (req, res) => {
-    Users.findOneAndUpdate({ Username: req.params.Username }, {
+// add movie to users favorites by user ID
+app.post('/users/:id/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ _id: req.params.id }, {
         $push: { FavoriteMovies: req.params.MovieID }
       },
       { new: true }, // This line makes sure that the updated document is returned
@@ -189,8 +199,8 @@ app.post('/users/update/:id/:title', (req, res) => {
 });
 
 // delete movie from users favorites by user id
-app.delete('/users/delete/:id/:title', (req, res) => {
-    Users.findOneAndUpdate({ Username: req.params.Username }, {
+app.delete('/users/:id/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ _id: req.params.id }, {
         $pull: { FavoriteMovies: req.params.MovieID }
       },
       { new: true }, // This line makes sure that the updated document is returned
@@ -205,13 +215,13 @@ app.delete('/users/delete/:id/:title', (req, res) => {
 });
 
 // delete user by name
-app.delete('/users/deleteUser/:name', (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username })
+app.delete('/users/:username', (req, res) => {
+    Users.findOneAndRemove({ Username: req.params.username })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username + ' was not found');
+        res.status(400).send(req.params.username + ' was not found');
       } else {
-        res.status(200).send(req.params.Username + ' was deleted.');
+        res.status(200).send(req.params.username + ' was deleted.');
       }
     })
     .catch((err) => {
@@ -252,9 +262,23 @@ app.get('/movies', (req, res) => {
 
 // Gets the data about a single movie, by title
 app.get('/movies/title/:title', (req, res) => {
-    Movies.findOne({ Title: req.params.Title })
+    Movies.find({ Title: req.params.title })
     .then((movie) => {
-        res.json(movie);
+        console.log(movie);
+        res.status(201).json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+    });
+});
+
+// gets movies by director
+app.get('/movies/director/:director', (req, res) => {
+    Movies.find({ "Director.Name": req.params.director })
+    .then((movie) => {
+        console.log(movie);
+        res.status(201).json(movie);
     })
     .catch((err) => {
         console.error(err);
@@ -262,11 +286,11 @@ app.get('/movies/title/:title', (req, res) => {
     })
 });
 
-// gets movies by director
-app.get('/movies/director/:director', (req, res) => {
-    Movies.findOne({ Director: req.params.Director })
+// gets the information of a single director
+app.get('/movies/desc/director/:name', (req, res) => {
+    Movies.findOne({ "Director.Name": req.params.name })
     .then((movie) => {
-        res.json(movie);
+        res.status(201).json(movie.Director);
     })
     .catch((err) => {
         console.error(err);
@@ -276,9 +300,21 @@ app.get('/movies/director/:director', (req, res) => {
 
 // gets movies by genre 
 app.get('/movies/genre/:genre', (req, res) => {
-    Movies.findOne({ Genre: req.params.Genre })
+    Movies.find({ "Genre.Name": req.params.genre })
     .then((movie) => {
         res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error ' + err);
+    })
+});
+
+//gets the description of a single genre
+app.get('/movies/desc/genre/:Name', (req, res) => {
+    Movies.findOne({ "Genre.Name": req.params.Name })
+    .then((movie) => {
+        res.json(movie.Genre);
     })
     .catch((err) => {
         console.error(err);
@@ -308,7 +344,7 @@ app.post('/movies', (req, res) => {
                             "Death" : req.body.Director.Death,
                     },
                     "ImagePath" : req.body.ImagePath,
-                    "Featured" : bool,
+                    "Featured" : Boolean()
                 })
                 .then ((movie) => { res.status(201).json(movie) })
                 .catch((error) => {
@@ -325,12 +361,12 @@ app.post('/movies', (req, res) => {
 
 // delete movie by title
 app.delete('/movies/:title', (req, res) => {
-    Movies.findOneAndRemove({ Title: req.params.Title })
+    Movies.findOneAndRemove({ Title: req.params.title })
       .then((movie) => {
           if(!movie) {
-              res.status(400).send(req.params.Title + ' was not found');
+              res.status(400).send(req.params.title + ' was not found');
           } else {
-              res.status(200).send(req.params.Title + "was deleted")
+              res.status(200).send(req.params.title + ' was deleted')
           }
       })
       .catch((err) => {

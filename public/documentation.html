@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Documentation</title>
 </head>
 <body>
     
     <h1>Documentation page</h1>
-    <table style="margin: auto; padding-top: 20px;">
+    <table>
         <thead>
             <tr>
                 <th>Request</th>
@@ -20,7 +21,7 @@
                 <th>Parameter Details</th>
             </tr>
         </thead>
-        <tbody style="text-align:left;">
+        <tbody>
             <tr>
                 <td>Returns list of all movies to the user</td>
                 <td>/movies</td>
@@ -28,13 +29,23 @@
                 <td>GET</td>
                 <td>Returns JSON array of all movies</td>
                 <td>  
-                    {
-                        "imgUrl": "",
-                        "title": "", 
-                        "genre": "",
-                        "director": ""
-                    }
-                    </td>
+                }
+                    "Title" : "", <br>
+                    "Description" : "", <br>
+                    "Genre" : { <br>
+                            "Name" : "",<br>
+                            "Description" : ""<br>
+                    },
+                    "Director" : <br>
+                            "Name" : "",<br>
+                            "Bio" : "",<br>
+                            "Birth" : "Year-Month-Day",<br>
+                            "Death" : "Year-Month-Day" <br>
+                    },<br>
+                    "ImagePath" : req.body.ImagePath, <br>
+                    "Featured" : Boolean() <br>
+                }
+                </td>
             </tr>
 
             <tr>
@@ -44,30 +55,41 @@
                 <td>GET</td>
                 <td>Returns selected movie as a JSON array</td>
                 <td>
-                    {
-                        "imgUrl": "",
-                        "title": "", 
-                        "genre": "",
-                        "director": ""
-                    }                    
+                }
+                    "Title" : "", <br>
+                    "Description" : "", <br>
+                    "Genre" : { <br>
+                            "Name" : "",<br>
+                            "Description" : ""<br>
+                    },
+                    "Director" : <br>
+                            "Name" : "",<br>
+                            "Bio" : "",<br>
+                            "Birth" : "Year-Month-Day",<br>
+                            "Death" : "Year-Month-Day" <br>
+                    },<br>
+                    "ImagePath" : req.body.ImagePath, <br>
+                    "Featured" : Boolean() <br>
+                }                  
                 </td>
             </tr>
 
             <tr>
-                <td>Returns data about a movie by a specific director</td>
-                <td>/movies/director/:director</td>
-                <td>:director</td>
+                <td>Returns data about about a specific director by name</td>
+                <td>/movies/desc/director/:Name</td>
+                <td>:Name</td>
                 <td>GET</td>
-                <td>Returns a JSON array of all movies made by a particular director</td>
+                <td>Returns a JSON array of all information about a particular director</td>
                 <td>
                     {
-                        "imgUrl": "",
-                        "title": "", 
-                        "genre": "",
-                        "director": ""
+                        "Name": "",
+                        "Bio": "", 
+                        "Birth": "",
+                        "Death": ""
                     }                                     
                 </td>
             </tr>
+
 
             <tr>
                 <td>Returns a list of movies under a specific genre</td>
@@ -76,11 +98,35 @@
                 <td>GET</td>
                 <td>Returns a JSON array of all movies under a specific genre</td>
                 <td>
+                }
+                "Title" : "", <br>
+                "Description" : "", <br>
+                "Genre" : { <br>
+                        "Name" : "",<br>
+                        "Description" : ""<br>
+                },
+                "Director" : <br>
+                        "Name" : "",<br>
+                        "Bio" : "",<br>
+                        "Birth" : "Year-Month-Day",<br>
+                        "Death" : "Year-Month-Day" <br>
+                },<br>
+                "ImagePath" : req.body.ImagePath, <br>
+                "Featured" : Boolean() <br>
+            }                   
+                </td>
+            </tr>
+
+            <tr>
+                <td>Returns data about a specific genre</td>
+                <td>/movies/desc/genre/:Name</td>
+                <td>:Name</td>
+                <td>GET</td>
+                <td>Returns a JSON array data for a specific genre</td>
+                <td>
                     {
-                        "imgUrl": "",
-                        "title": "", 
-                        "genre": "",
-                        "director": ""
+                        "Name": "",
+                        "Description": "", 
                     }                    
                 </td>
             </tr>
@@ -93,12 +139,22 @@
                 <td>Creates a new movie to add to our JSON array</td>
                 <td>
                     Structured like this: <br>
-                    {
-                        "imgUrl": "",
-                        "title": "", 
-                        "genre": "",
-                        "director": ""
-                    } 
+                    { <br>
+                        "Title" : "", <br>
+                        "Description" : "", <br>
+                        "Genre" : { <br>
+                                "Name" : "",<br>
+                                "Description" : ""<br>
+                        },
+                        "Director" : <br>
+                                "Name" : "",<br>
+                                "Bio" : "",<br>
+                                "Birth" : "Year-Month-Day",<br>
+                                "Death" : "Year-Month-Day" <br>
+                        },<br>
+                        "ImagePath" : req.body.ImagePath, <br>
+                        "Featured" : Boolean() <br>
+                    }
                 </td>
             </tr>
 
@@ -121,10 +177,13 @@
                 <td>GET</td>
                 <td>Returns a JSON array of all users</td>
                 <td>
-                    {
-                        "id": "",
-                        "name": "",
-                        "favoriteMovies": []
+                    { <br>
+                        "_id": "",<br>
+                        "Username": "",<br>
+                        "Password": "",<br>
+                        "Email": "",<br>
+                        "Birthday": "Year-Month-Day",<br>
+                        "FavoriteMovies": [] <br>
                     }
                 </td>
             </tr>
@@ -136,11 +195,14 @@
                 <td>GET</td>
                 <td>Returns array of a user by ID</td>
                 <td>
-                    {
-                        "id": "",
-                        "name": "",
-                        "favoriteMovies": []
-                    }
+                    { <br>
+                        "_id": "",<br>
+                        "Username": "",<br>
+                        "Password": "",<br>
+                        "Email": "",<br>
+                        "Birthday": "Year-Month-Day",<br>
+                        "FavoriteMovies": [] <br>
+                    },
                 </td>
             </tr>
 
@@ -151,52 +213,61 @@
                 <td>POST</td>
                 <td>Adds new user to users JSON array</td>
                 <td>
-                    {
-                        "name": "",
-                        "favoriteMovies": []
-                    }
+                    { <br>
+                        "_id": "",<br>
+                        "Username": "",<br>
+                        "Password": "",<br>
+                        "Email": "",<br>
+                        "Birthday": "Year-Month-Day",<br>
+                        "FavoriteMovies": [] <br>
+                    },
                 </td>
             </tr>
 
             <tr>
-                <td>Updates user by user id</td>
-                <td>/users/update/:id</td>
-                <td>:id</td>
+                <td>Updates user by username</td>
+                <td>/users/:username</td>
+                <td>:username</td>
                 <td>PUT</td>
-                <td>Updates user name in our JSON by id </td>
+                <td>Updates user name in our JSON by Username </td>
                 <td>
-                    /users/update/1 : <br>
-                    {
-                        "name": ""
-                    }
+                    ex. /users/update/1 : <br>
+                    { <br>
+                        "_id": "",<br>
+                        "Username": "",<br>
+                        "Password": "",<br>
+                        "Email": "",<br>
+                        "Birthday": "Year-Month-Day",<br>
+                        "FavoriteMovies": [] <br>
+                    },
                 </td>
             </tr>
 
             <tr>
-                <td>Adds movie to users favorites by user ID</td>
-                <td>/users/update/:id/:title</td>
-                <td>:id, :title</td>
+                <td>Adds movie to users favorites by userID and MovieID</td>
+                <td>/users/:id/:MovieID</td>
+                <td>:id, :MovieID</td>
                 <td>POST</td>
                 <td>Adds movie to a specific users FavoriteMovies array</td>
-                <td>/users/update/1/Get%20Out</td>
+                <td>/users/update/your-userID/MovieID</td>
             </tr>
 
             <tr>
-                <td>Deletes movie from users favorites by user id and movie title</td>
-                <td>/users/delete/:id/:title</td>
-                <td>:id, :title</td>
+                <td>Deletes movie from users favorites by user id and movieID</td>
+                <td>/users/:id/:MovieID</td>
+                <td>:id, :MovieID</td>
                 <td>DELETE</td>
                 <td>Deletes movie from a specific users favorite movies array</td>
-                <td>/users/update/1/Get%20Out</td>
+                <td>/users/your-userID/MovieID</td>
             </tr>
 
             <tr>
                 <td>Deletes user by name</td>
-                <td>/users/deleteUser/:name</td>
-                <td>:name</td>
+                <td>/users/:username</td>
+                <td>:username</td>
                 <td>DELETE</td>
                 <td>Deletes user from our array of users by name</td>
-                <td>/users/deleteUser/john</td>
+                <td>/users/johndoe</td>
             </tr>
         </tbody>
     </table>

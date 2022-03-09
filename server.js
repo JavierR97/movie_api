@@ -10,8 +10,8 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect( 'mongodb+srv://javier1997:EozMv6uPuDGxFPP7@myflixdbmyfirstdb.6upox.mongodb.net/myFlixDBmyFirstDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect( 'mongodb+srv://javier1997:EozMv6uPuDGxFPP7@myflixdbmyfirstdb.6upox.mongodb.net/myFlixDBmyFirstDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 app.use(bodyParser.json());
@@ -175,7 +175,7 @@ app.post('/users/newUser',
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashedPassword(req.body.Password);
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -184,7 +184,7 @@ app.post('/users/newUser',
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })

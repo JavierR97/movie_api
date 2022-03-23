@@ -41,99 +41,9 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-let movies = [
-    {
-      imgUrl:'https://tinyurl.com/35pytd79',
-      title: 'The Conjuring: The Devil Made Me Do It',
-      genre:'horror',
-      director: 'Michael Chaves'
-    },
-    {
-      imgUrl:'https://tinyurl.com/yj2s6d57',
-      title:'The Babadook',
-      genre:'horror',
-      director: 'Jennifer Kent'
-    },
-    {
-        Title: 'Get Out',
-        Description: '',
-        Genre: {
-            Name: 'Horror',
-            Description:'"Horror is a genre of literature, film, and television that is meant to scare, startle, shock, and even repulse audiences.'
-        },
-        Director: {
-            Name: 'Jordan Peele',
-            Bio: '',
-            Birth: '',
-            Death: ''
-        },
-        ImagePath: 'https://tinyurl.com/yj2s6d57',
-        Featured: false,     
-    },
-    {
-      imgUrl:'https://tinyurl.com/8hanet65',
-      title:'IT(2017)',
-      genre:'horror',
-      director: 'Andrés Muschietti'
-    },
-    {
-      imgUrl:'https://tinyurl.com/ycyfbw2c',
-      title:'The Cabin in the Woods (2011)',
-      genre:'horror',
-      director: 'Drew Goddard'
-    },
-    {
-      imgUrl:'https://tinyurl.com/j7fkd22k',
-      title:'A Quiet Place(2018)',
-      genre:'horror',
-      director: 'John Krasinski'
-    },
-    {
-      imgUrl:'https://tinyurl.com/yc4x27p4',
-      title: 'The Blair Witch Project (1999)',
-      genre:'horror',
-      director: 'Daniel Myrick'
-    },
-    {
-      imgUrl:'https://tinyurl.com/2p8edub7',
-      title:'The Exorcist (1973)',
-      genre:'horror',
-      director:'William Friedkin'
-    },
-    {
-      imgUrl:'https://tinyurl.com/2p9cvvcf',
-      title:'The Shining (1980)',
-      genre:'horror',
-      director:'Stanley Kubrick'
-    },
-    {
-      imgUrl:'https://tinyurl.com/5e86dktm',
-      title:'Sinister (2012)',
-      genre:'horror',
-      director: 'Scott Derrickson'
-    },
-    {
-      imgUrl:'https://tinyurl.com/2p9apdpt',
-      title: 'The Mitachells vs The Machines',
-      genre:'comedy',
-      director:'Micheal Rianda'
-    }
-]; 
+
 
 // users start
-var users = [
-  
-{
-    id:"0",
-    name:"john",
-    favoriteMovies:['Get Out']
-},
-{
-    id:"1",
-    name:"ted",
-    favoriteMovies:[]
-}
-];
 
 // get all users 
 app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -289,7 +199,8 @@ app.get('/documentation', passport.authenticate('jwt', { session: false }), (req
 /* movies CRUD operations start */
 
 // gets all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) => {
+
+/* app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) => {
     Movies.find()
     .then((movies) => {
         res.status(201).json(movies);
@@ -298,7 +209,18 @@ app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) 
         console.error(err);
         res.status(500).send('Error: ' + err);
     })
-});
+}); */
+
+app.get("/movies", function (req, res) {
+    Movies.find()
+      .then(function (movies) {
+        res.status(201).json(movies);
+      })
+      .catch(function (error) {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  });
 
 // Gets the data about a single movie, by title
 app.get('/movies/title/:title', passport.authenticate('jwt', { session: false }), (req, res) => {

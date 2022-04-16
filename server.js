@@ -200,7 +200,7 @@ app.get('/documentation', passport.authenticate('jwt', { session: false }), (req
 
 // gets all movies
 
-/* app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) => {
     Movies.find()
     .then((movies) => {
         res.status(201).json(movies);
@@ -209,9 +209,9 @@ app.get('/documentation', passport.authenticate('jwt', { session: false }), (req
         console.error(err);
         res.status(500).send('Error: ' + err);
     })
-}); */
+});
 
-app.get('/movies', function (req, res) {
+/* app.get('/movies', function (req, res) {
     Movies.find()
       .then(function (movies) {
         res.status(201).json(movies);
@@ -220,7 +220,7 @@ app.get('/movies', function (req, res) {
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  });
+  }); */
 
 // Gets the data about a single movie, by title
 app.get('/movies/title/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -349,7 +349,7 @@ app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
 });
 
-/* mongoimport --uri mongodb+srv://javier1997:EozMv6uPuDGxFPP7@myflixdbmyfirstdb.6upox.mongodb.net/myFlixDB --collection users --type json --file C:\Users\javie\users.json */
+/* mngoimport --uri mongodb+srv://javier1997:EozMv6uPuDGxFPP7@myflixdbmyfirstdb.6upox.mongodb.net/myFlixDB --collection users --type json --file C:\Users\javie\users.json */
 
 
 

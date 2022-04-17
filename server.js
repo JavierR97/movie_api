@@ -200,7 +200,7 @@ app.get('/documentation', passport.authenticate('jwt', { session: false }), (req
 
 // gets all movies
 
-/* app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }) ,(req, res) => {
     Movies.find()
     .then((movies) => {
         res.status(201).json(movies);
@@ -209,9 +209,9 @@ app.get('/documentation', passport.authenticate('jwt', { session: false }), (req
         console.error(err);
         res.status(500).send('Error: ' + err);
     })
-}); */
+});
 
-app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
+/* app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
     Movies.find()
       .then(function (movies) {
         res.status(201).json(movies);
@@ -220,7 +220,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), function (r
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-}); 
+});  */
 
 // Gets the data about a single movie, by title
 app.get('/movies/title/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
